@@ -1,0 +1,24 @@
+# compse.yml
+
+services:
+      
+      api:
+        image: my_api
+        build: .
+          
+      site-a:
+          image: nginx
+          ports:
+              - "8080:80"
+          volumes:
+              - ./content:/usr/share/nginx/html
+          
+      y:
+          image: nginx
+          ports:
+              - "8081:80"
+          volumes:
+              - ./content:/usr/share/nginx/html
+
+
+
