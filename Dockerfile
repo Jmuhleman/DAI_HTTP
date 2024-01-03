@@ -1,10 +1,5 @@
-# compose-simple.yml
-FROM nginx:latest
+FROM eclipse-temurin:latest
+COPY API/target/app.jar /app.jar
 
-COPY content /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
-RUN ["apt-get", "update"]
-RUN ["apt-get", "install", "-y", "vim"]
+EXPOSE 7070
+ENTRYPOINT ["java", "-jar", "/app.jar"]

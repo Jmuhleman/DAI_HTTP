@@ -13,7 +13,7 @@ services:
           volumes:
               - ./content:/usr/share/nginx/html
           
-      y:
+      site-b:
           image: nginx
           ports:
               - "8081:80"
