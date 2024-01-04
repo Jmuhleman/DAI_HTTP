@@ -7,7 +7,8 @@ services:
   api:
       image: my_api
       build: .
-        
+      ports:
+          - "7070:7070" 
   site-a:
       image: nginx
       ports:
@@ -24,18 +25,18 @@ services:
           - ./content:/usr/share/nginx/html
 
 
-  reverse-proxy:
-        # The official v2 Traefik docker image
-      image: traefik
-        # Enables the web UI and tells Traefik to listen to docker
-      command: 
-            --api.insecure=true
-            --providers.docker
-      ports:
-          # The HTTP port
-          - "80:80"
-          # The Web UI (enabled by --api.insecure=true)
-          - "8888:8080"
-      volumes:
-          # So that Traefik can listen to the Docker events
-          - /var/run/docker.sock:/var/run/docker.sock
+ # reverse-proxy:
+ #       # The official v2 Traefik docker image
+ #     image: traefik
+ #       # Enables the web UI and tells Traefik to listen to docker
+ #     command: 
+ #           --api.insecure=true
+ #           --providers.docker
+ #     ports:
+ #         # The HTTP port
+ #         - "80:80"
+ #         # The Web UI (enabled by --api.insecure=true)
+ #         - "8888:8080"
+ #     volumes:
+ #         # So that Traefik can listen to the Docker events
+ #         - /var/run/docker.sock:/var/run/docker.sock
