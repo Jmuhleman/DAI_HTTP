@@ -6,45 +6,42 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class UserController {
 
-    private ConcurrentHashMap<Integer, User> users = new ConcurrentHashMap<>();
-    private int lastId = 0;
+    public ConcurrentHashMap<String, Nutriment> nutriments = new ConcurrentHashMap<>();
 
     public UserController() {
-        users.put(++lastId, new User("John", "Doe"));
-        users.put(++lastId, new User("Vadim", "sirovsky"));
-        users.put(++lastId, new User("simon", "cartel"));
     }
 
     public void getOne(Context ctx) {
-        int id = Integer.parseInt(ctx.pathParam("id"));
-        ctx.json(users.get(id));
+        String name = ctx.pathParam("name");
+        ctx.json(nutriments.get(name));
     }
 
     public void getAll(Context ctx) {
-        ctx.json(users.values());
+
+        ctx.json(nutriments.values());
     }
+
     public void create(Context ctx) {
-        User user = ctx.bodyAsClass(User.class);
-        users.put(++lastId, user);
-        ctx.status(201).json(user);
+        Nutriment n = ctx.bodyAsClass(Nutriment.class);
+
+        nutriments.put(n.name, n);
+        ctx.status(201).json(n);
     }
+
     public void update(Context ctx) {
-        int id = Integer.parseInt(ctx.pathParam("id"));
-        User user = ctx.bodyAsClass(User.class);
-        users.put(id, user);
-        ctx.status(204);
+        Nutriment req  = ctx.bodyAsClass(Nutriment.class);
+
+        Nutriment n = nutriments.get(req.name);
+        n.setNutriment(req.name, req.energy, req.protein, req.carbohydrate, req.fat);
+        
+        nutriments.put(n.name, n);
+        ctx.status(200).json(n);
     }
 
     public void delete(Context ctx) {
-        int id = Integer.parseInt(ctx.pathParam("id"));
-        users.remove(id);
+        String name = ctx.pathParam("name");
+        nutriments.remove(name);
         ctx.status(204);
     }
-
-
-
-
-
-
 
 }

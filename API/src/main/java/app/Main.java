@@ -2,19 +2,23 @@ package app;
 
 import io.javalin.*;
 
+import java.util.ArrayList;
+
 
 public class Main {
     public static void main(String[] args) {
         Javalin app = Javalin.create().start(7070);
 
+
         UserController userController = new UserController();
-        app.get("/api/users", userController::getAll);
-        app.get("/api/users/{id}", userController::getOne);
+        app.get("/api/nutriment", userController::getAll);
+        app.get("/api/nutriment/{name}", userController::getOne);
 
-        app.post("/api/users/", userController::create);
-        app.put("/api/users/{id}", userController::update);
+        app.post("/api/nutriment/", userController::create);
 
-        app.delete("/api/users/{id}", userController::delete);
+        app.put("/api/nutriment/{name}", userController::update);
+        app.delete("/api/nutriment/{name}", userController::delete);
+
 
     }
 }
