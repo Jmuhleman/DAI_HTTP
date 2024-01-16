@@ -15,12 +15,18 @@ services:
         - "traefik.enable=true"
         - "traefik.http.routers.api.rule=Host(`localhost`) && PathPrefix(`/api`)"
         - "traefik.http.services.api.loadbalancer.server.port=7070"
+        - "traefik.http.services.api.loadbalancer.sticky=true"
+        - "traefik.http.services.api.loadbalancer.sticky.cookie.name=superCookie"
+        - "traefik.http.services.api.loadbalancer.sticky.cookie.secure=true"
+
 
   site-a:
       image: web
       build:
         context:
           ./web
+      deploy:
+        replicas: 2
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.site-a.rule=Host(`localhost`)"
@@ -37,7 +43,6 @@ services:
     ports:
         # The HTTP port
         - "80:80"
-        - "443:443"
         # The Web UI (enabled by --api.insecure=true)
         - "8080:8080"
 
