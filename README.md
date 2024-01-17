@@ -276,3 +276,44 @@ labels:
 ```
 * Pour activer le point d’entrée https 
 * Et mettre tls a true
+
+## Partie 1 Optionnel : Management UI
+L'objectif de cette étape est de déployer ou de développer une application Web qui peut être utilisée pour surveiller et mettre à jour votre infrastructure Web de manière dynamique. 
+Vous devriez être en mesure de dresser la liste des conteneurs en cours d'exécution, de les démarrer/arrêter et d'ajouter/supprimer des instances.
+
+pour cette partie, nous avons utilisé Portainer, qui est une interface de gestion pour Docker.
+Pour pouvoir utiliser Portainer, il faut l'ajouter à notre fichier docker-compose.yml en tant que service :
+```yaml
+portainer:
+  image: portainer/portainer-ce # Utilise l'image Portainer Community Edition (portainer-ce) depuis Docker Hub.
+  ports:
+    - "9443:9443" # Expose le port 9443 pour accéder à l'interface web de Portainer via HTTPS.
+    - "9000:9000" # Expose également le port 9000, utilisé dans les versions antérieures de Portainer pour l'accès HTTP.
+  volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock" # Monte le socket Docker dans le conteneur Portainer.
+    # Cela permet à Portainer de communiquer avec l'instance Docker de l'hôte et de gérer les conteneurs, images, etc.
+  restart: unless-stopped # Configure le conteneur pour qu'il redémarre automatiquement, sauf s'il est explicitement arrêté.
+```
+
+Pour accéder à Portainer, il faut utiliser l'URL suivante : https://localhost:9443 ou http://localhost:9000
+![Portainer](./images/portainer.png)
+
+### Portainer
+Portainer est une image Docker populaire qui sert de plateforme de gestion pour Docker. C'est un outil de gestion d'interface utilisateur (UI) qui permet de gérer facilement vos conteneurs, images, réseaux et volumes Docker.
+Fontionnalités :
+1. Interface utilisateur conviviale : Portainer fournit une interface web qui permet aux utilisateurs de gérer leurs environnements Docker sans avoir à utiliser des commandes en ligne de commande. Cela le rend accessible même pour les utilisateurs moins familiers avec Docker.
+
+2. Gestion des Conteneurs : Avec Portainer, vous pouvez démarrer, arrêter, supprimer et créer des conteneurs. Vous pouvez également accéder aux logs, surveiller l'utilisation des ressources et effectuer d'autres tâches de gestion courantes.
+
+3. Gestion des Images Docker : Portainer permet de visualiser, télécharger, et supprimer les images Docker présentes sur votre système. Il facilite également la création de nouveaux conteneurs à partir d'images existantes.
+
+4. Gestion des Réseaux et des Volumes : Il offre la possibilité de gérer les réseaux et les volumes, ce qui est essentiel pour la configuration et l'optimisation des environnements Docker.
+
+5. Gestion des Utilisateurs : Portainer permet de gérer les utilisateurs et d'attribuer des rôles et des permissions, ce qui est utile dans les environnements où plusieurs personnes travaillent avec Docker.
+
+6. Prise en Charge de Swarm et Kubernetes : En plus de gérer des instances Docker simples, Portainer peut être utilisé pour gérer des clusters Docker Swarm et offre un support pour Kubernetes, ce qui le rend utile pour les opérations à plus grande échelle.
+
+7. Facilité d'installation : Portainer est facile à installer et à configurer en tant que conteneur Docker, ce qui le rend rapidement opérationnel.
+
+Grâve à Portainer, il est possible de gérer les conteneurs, les images, les réseaux et les volumes Docker comme le montre l'image ci-dessus.
+
