@@ -1,5 +1,5 @@
 # DAI_HTTP
-# Partie 1
+# Partie 1 : Static Web site
 L'objectif de cette étape est de construire une image Docker qui contient un serveur HTTP statique Nginx. 
 Le serveur servira un site Web statique. Le site Web statique sera une page unique avec un modèle agréable à regarder.
 * Le dossier du site Web statique s'appelle "web" : HTTP/web
@@ -39,7 +39,7 @@ docker run -d -p 80:80 mynginx
 ```
 Il est possible de vérifier que le site Web est accessible en utilisant un navigateur Web et en accédant à l'URL : http://localhost
 
-# Partie 2
+# Partie 2 : Docker compose
 L'objectif de cette étape est d'utiliser Docker compose pour déployer une première version de l'infrastructure avec un seul service : le serveur Web statique.
 En plus de la configuration de base de Docker compose, nous voulons pouvoir reconstruire l'image Docker du serveur Web.
 
@@ -82,7 +82,7 @@ Pour les tester, il faut utiliser un navigateur Web et accéder aux URL suivante
 * http://localhost:8081
 
 
-# Partie 3
+# Partie 3 : HTTP API server
 L'objectif est de construire une API HTTP avec Javalin.
 Nous avons construit une API CRUD permettant de gérer les nutriments d'un aliment, nous avons par exemple le niveau de protéine, energie , carbohidrate, etc.
 Elle est très simple et ne contient que 5 méthodes :
@@ -133,7 +133,7 @@ Pour lancer l'API, il faut utiliser la commande suivante :
 docker compose build
 docker compose up
 ```
-# Partie 4
+# Partie 4 : Reverse proxy with Traefik
 L'objectif de cette étape est de placer un proxy inverse devant les serveurs Web dynamiques et statiques de manière à ce que le proxy inverse reçoive toutes les connexions et les transmette au serveur Web concerné.
 
 Vous utiliserez Traefik comme proxy inverse. 
@@ -201,7 +201,7 @@ Il est désormais possible :
 - d'accéder au Dashboard traefik à l'adresse http://localhost:8080
 - d'accéder d'envoyer de requête à notre api à l'adresse http://localhost/api
 
-# Partie 5
+# Partie 5 : Scalability and load balancing
 L'objectif de cette section est de permettre à Traefik de détecter dynamiquement plusieurs instances de serveurs Web (dynamiques/statiques).
 
 Modifiez votre fichier docker compose de manière à ce que plusieurs instances de chaque serveur soient démarrées. 
@@ -220,7 +220,7 @@ docker-compose up --scale api/site-a=n -d
 ```
 n = nombre d'instance à scaler
 
-# Partie 6
+# Partie 6 :  Load balancing with round-robin and sticky sessions
 Par défaut, Traefik utilise la méthode round-robin pour répartir la charge entre toutes les instances disponibles. 
 Cependant, si un service est sans états, il serait préférable d'envoyer les demandes de la même session toujours à la même instance. 
 C'est ce qu'on appelle sticky session.
@@ -244,7 +244,8 @@ Pour évaluer le fonctionnement de ces méthodes, il est nécessaire d'accéder 
 On peut alors observer que, dans le cas du site, une instance différente du service est sollicitée à chaque fois (suivant un ordre régulier, conforme à la logique du round-robin qui assure une distribution équilibrée), 
 tandis que pour l'API, c'est systématiquement la même instance qui est utilisée.
 
-# Partie 7
+# Partie 7 : Securing Traefik with HTTPS
+
 
 Toute infrastructure web réelle doit être sécurisée avec HTTPS au lieu de HTTP en clair. 
 L'objectif de cette étape est de configurer Traefik pour qu'il utilise HTTPS avec les clients.

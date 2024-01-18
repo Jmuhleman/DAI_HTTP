@@ -57,6 +57,7 @@ services:
         - ./certificates:/etc/traefik/certificates
         - ./traefik.yml:/etc/traefik/traefik.yml
 
+# Management UI - Part 1 Optional
   portainer:
     image: portainer/portainer-ce
     ports:
